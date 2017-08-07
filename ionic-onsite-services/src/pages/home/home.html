@@ -9,7 +9,11 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
+  <h3>On Site </h3>
+    <ion-list>
+        <ion-item class="text" *ngFor="let item of items | async">
+            {{item.$value}} {{item.$key }}
+        </ion-item>
+    </ion-list>
   <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
 </ion-content>

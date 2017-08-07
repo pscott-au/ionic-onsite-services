@@ -7,3 +7,6 @@ It is a work in progress but aims to provide a publicly available reference impl
 
 ## Change Log
 7/8/17 - created ionic 3 from template and added login screen
+       - firebase environment and auth with email address and password
+       - angularfire offline storage to handle network outages
+       

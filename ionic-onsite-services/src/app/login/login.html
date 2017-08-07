@@ -1,9 +1,17 @@
 <ion-content padding style="text-align: center">
   <h3>Login</h3>
 
-  <p>Enter a username below then click login.</p>
+  <p>Enter email and password below</p>
 
   <div><input type="text" #username /></div>
+  <div><input type="text" #password /></div>
 
-  <button ion-button secondary (click)="login(username.value)">Login</button>
+  <!-- <button ion-button secondary (click)="login(username.value, password.value)">Login to prod server</button> -->
+
+  <button ion-button secondary (click)="login_firebase_email(username.value, password.value)">Login To Firebase</button>
+
+
 </ion-content>
+<!-- 
+    not having this as a page makes approaches to css styling uncertain .. need to explore options 
+  -->
