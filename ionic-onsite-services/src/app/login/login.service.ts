@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -18,8 +18,16 @@ export class LoginService {
   public displayName: string;
   private afAuth;
   private afDB;
-  //private _items: FirebaseListObservable<any[]>;
+  public _runs:  AfoListObservable<any[]>;
   public _items: AfoListObservable<any[]>;
+  private _uid: String;
+  public selected_run_id: Number = 0;
+
+  public configObservable = new Subject<number>();
+         emitConfig(val) {
+           console.log('login service set to' + val );
+         this.configObservable.next(val);
+       }
 
   constructor( public http: Http, afAuth: AngularFireAuth,  afDB: AngularFireOfflineDatabase ) {
             this.user = afAuth.authState; // this is v4 version shorter than below as per https://github.com/angular/angularfire2/blob/master/docs/version-4-upgrade.md
@@ -47,6 +55,26 @@ export class LoginService {
   
 
 
+  select_run( run_id: Number )
+  {
+    this.selected_run_id = run_id;
+    alert('run_id selected ' + run_id );
+  }
+
+  //.child(success.uid).AfoListObservable;
+  get_runs():AfoListObservable<any[]>  {
+    this._runs = this.afDB.list('/available_runs/wt2lv9t2SAOFnSV1lch1GrWnds02');
+    console.log( this._runs );
+    /*
+    .then(
+      {
+        return   this._runs;
+      }
+    );
+    */ 
+    return this._runs;
+   
+  }
 
 
   loginSuccess( token )
@@ -88,11 +116,13 @@ export class LoginService {
        //alert('good');
        this.authorized = true;
        console.log(success.toJSON);
-       
+       this._uid = success.uid;
+       console.log("Successful login from email with uid = " + success.uid );
+       // !PS     this._runs = this.afDB.list('available_runs').child(success.uid);
+       //this._runs = this.afDB.list(/'available_runs'); // .child(success.uid).AfoListObservable;
+//
        // !PS removed setting user db profile record for now .. 
        //firebase.database().ref('/userProfile').child(success.uid).set( { ts: 'time' , email: success.email } );
-       
-       
        //.set({ email: success.email });
        //this.displayName = this.afAuth.user.email;
        observer.next();       

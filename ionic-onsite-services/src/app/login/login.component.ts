@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component }    from '@angular/core';
 import { LoginService } from "./login.service";
-import {NavController} from "ionic-angular/index";
+import {NavController}  from "ionic-angular/index";
 
 @Component({
   templateUrl: 'login.html'
@@ -14,7 +14,6 @@ export class LoginComponent {
     if (this.loginService.authorized ) // authorised won't be set until the subscribed service completes .. could look at an observer based approach for nav here.
       {
         this.nav.pop();
-        
       }
     //this.items = loginService.items;
   }

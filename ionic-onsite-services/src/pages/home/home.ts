@@ -24,10 +24,9 @@ export class HomePage {
     if ( this.loginService.username )
       {
         this.username= this.loginService.username;
-       
       }
        this.items = this.loginService.items();
-       this.items.push('Greek' );
+       //this.items.push('Greek' );
   }
 
 }

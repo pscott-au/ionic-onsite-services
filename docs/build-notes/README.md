@@ -59,6 +59,40 @@ constructor(afoDatabase: AngularFireOfflineDatabase,
 }
 ````
 
+## Run / Job List Data 
+
+
+
+
+# Runs Page
+
+get list of available runs from firebase on init and construct a select combo.
+Handle selection and update service usng  Observable as  [(ngModel)]="selected_run" as per      https://stackoverflow.com/questions/41915625/how-to-detect-variable-change-in-angular2
+  and example https://plnkr.co/edit/bpl3vje178GsFIIMU7m5?p=preview
+
+
+
+## Location and Mapping
+
+ionic cordova plugin add cordova-plugin-geolocation
+npm install --save @ionic-native/geolocation
+            + @ionic-native/geolocation@4.1.0
+
+
+
+
+## On Site Data Capture
+
+
+## Inventory on hand
+
+## Schedule Adjustments
+
+
+
+
+
+
 ### Expanding to provide Facebook Login
 as per https://ionicframework.com/docs/native/facebook/
 
