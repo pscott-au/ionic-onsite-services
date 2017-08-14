@@ -4,9 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+//import { ListPage } from '../pages/list/list';
 import { RunsPage } from '../pages/runs/runs';
-
+import { MapPage } from '../pages/map/map';
 
 @Component({
   templateUrl: 'menu.html'
@@ -14,7 +14,7 @@ import { RunsPage } from '../pages/runs/runs';
 export class MenuComponent {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = MapPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -23,8 +23,9 @@ export class MenuComponent {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
-      { title: 'Runs', component: RunsPage }
+      //{ title: 'List', component: ListPage },
+      { title: 'Runs', component: RunsPage },
+      { title: 'Map', component: MapPage }
     ];
 
   }

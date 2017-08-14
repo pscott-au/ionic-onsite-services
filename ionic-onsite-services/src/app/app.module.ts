@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { RunsPage } from '../pages/runs/runs';
+import { MapPage } from '../pages/map/map';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -13,6 +14,8 @@ import { LoginModule } from "./login/login.module";
 import { MenuComponent } from "./menu.component";
 
 import { HttpModule } from '@angular/http';
+import { GoogleMaps } from '@ionic-native/google-maps'
+
 
 @NgModule({
   declarations: [
@@ -20,7 +23,8 @@ import { HttpModule } from '@angular/http';
     HomePage,
     ListPage,
     MenuComponent,
-    RunsPage
+    RunsPage,
+    MapPage
   ],
   imports: [
     BrowserModule,
@@ -34,12 +38,14 @@ import { HttpModule } from '@angular/http';
     HomePage,
     ListPage,
     MenuComponent,
-    RunsPage
+    RunsPage,
+    MapPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    GoogleMaps
   ]
 })
 export class AppModule {}

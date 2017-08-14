@@ -61,30 +61,14 @@ export class LoginService {
     this._selected_run = this.afDB.list('/user_runs/' + this._uid + '/' + run_id + '/drops' );
     // TODO this.navCtrl.setRoot(HomePage);
   }
-
+ 
+  run_items(): AfoListObservable<any[]> {
+    return this._selected_run;
+  }
 
   get_runs():AfoListObservable<any[]>  { // expose a list of available runs
     this._runs = this.afDB.list('/available_runs/' + this._uid);
-    //console.log( this._runs );
-    /*
-    .then(
-      {
-        return   this._runs;
-      }
-    );
-    */ 
-    return this._runs;
-   
-  }
-
-
-  loginSuccess( token ) // not used
-  {
-    alert('success');
-  }
-
-  loginError() { // not used
-    alert('error)');
+    return this._runs;   
   }
 
   logout() {
@@ -103,10 +87,18 @@ export class LoginService {
   }
 
 
-  //items(): FirebaseListObservable<any[]> {
-    run_items(): AfoListObservable<any[]> {
-    return this._selected_run;
+  loginSuccess( token ) // not used
+  {
+    alert('success');
   }
+
+  loginError() { // not used
+    alert('error)');
+  }
+
+
+  //items(): FirebaseListObservable<any[]> {
+
     // Login on Firebase given the email and password.
     
   emailLoginFirebase(email, password) {
@@ -119,6 +111,7 @@ export class LoginService {
        this.authorized = true;
        //console.log(success.toJSON);
        this._uid = success.uid;
+       this._username = success.email;
        console.log("Successful login from email with uid = " + success.uid );
        // !PS     this._runs = this.afDB.list('available_runs').child(success.uid);
        //this._runs = this.afDB.list(/'available_runs'); // .child(success.uid).AfoListObservable;
