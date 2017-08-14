@@ -59,6 +59,8 @@ constructor(afoDatabase: AngularFireOfflineDatabase,
 }
 ````
 
+Am exploring options for [Managing offline resource usage](https://github.com/adriancarriger/angularfire2-offline/issues/56)
+
 ## Run / Job List Data 
 
 

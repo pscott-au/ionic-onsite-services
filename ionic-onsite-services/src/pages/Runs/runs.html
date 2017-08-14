@@ -3,8 +3,11 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
-    Hello, {{username}} <lsd-logout></lsd-logout>
+    <ion-title>{{username}}</ion-title>
+    <ion-buttons end>
+      <lsd-logout></lsd-logout>
+    </ion-buttons>
+
   </ion-navbar>
 </ion-header>
 
@@ -24,7 +27,7 @@
   <ion-item>
     <ion-label>Selected Run</ion-label>
     <!-- [compareWith]="compareFn"  (ionSelect)="select_run2()" (change)="select_run2()" -->
-    <ion-select [(ngModel)]="selected_run"  (ionChange)="select_run2()"  multiple="false" > <!-- cancelText="Nah" okText="Okay!" -->
+    <ion-select [(ngModel)]="selected_run"  (ionChange)="select_run()"  multiple="false" > <!-- cancelText="Nah" okText="Okay!" -->
       <ion-option *ngFor="let run of runs | async" [value]="run.run_id" >{{ run.desc }}</ion-option>
       
     </ion-select>

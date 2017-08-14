@@ -5,7 +5,7 @@ import {NavController} from "ionic-angular/index";
 
 @Component({
   selector: 'lsd-logout',
-  template: '<button ion-button small color="light" (click)="logout()">Logout</button>'
+  template: '<button ion-button small color="light" (click)="logout()"><ion-icon name="exit"></ion-icon>&nbsp;Logout</button>'
 })
 export class LogoutComponent {
   username: string;

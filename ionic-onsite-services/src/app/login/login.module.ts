@@ -6,13 +6,11 @@ import { LogoutComponent } from "./logout.component";
 //import {HttpClientModule} from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 // import * as firebase from 'firebase/app'; // lint suggests not required?
-import { AngularFireModule } from 'angularfire2';
-import { environment } from '../../environments/environment'; // contains namespace with firebase credentials etc
-import { AngularFireAuthModule } from 'angularfire2/auth';
-
+import { AngularFireModule }        from 'angularfire2';
+import { environment }              from '../../environments/environment'; // contains namespace with firebase credentials etc
+import { AngularFireAuthModule }    from 'angularfire2/auth';
 import { AngularFireOfflineModule } from 'angularfire2-offline';
-import { AngularFireDatabase } from 'angularfire2/database';
-
+import { AngularFireDatabase }      from 'angularfire2/database';
 
 
 @NgModule({

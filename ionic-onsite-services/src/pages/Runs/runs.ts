@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {LoginService} from "../../app/login/login.service";
-
+//import { HomePage } from '../home/home';
 //import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 // import { AngularFireOfflineModule } from 'angularfire2-offline'; // not sure why this isn't reqd?
 //import * as firebase from 'firebase/app'; // lint suggests not required?
@@ -46,23 +46,17 @@ export class RunsPage {
       {
         this.username= this.loginService.username;
       }
-       this.items = this.loginService.items();
+       this.items = this.loginService.run_items();
        this.runs = this.loginService.get_runs();
        //this.items.push('Greek' );
        console.log('ionViewWillEnter  ' +  this.selected_run );
   }
 
-  select_run2() {
-    //alert('fnraa');
+
+  select_run()
+  {
     console.log('select_run2 selected ' + this.selected_run );
     this.loginService.select_run( this.selected_run );
-  }
-
-  select_run( run_id: Number )
-  {
-    alert('foo');
-    //firebase.database().ref('/userProfile').child(success.uid).set( { ts: 'time' , email: success.email } );
-    this.loginService.select_run( run_id);
   }
 
   /*

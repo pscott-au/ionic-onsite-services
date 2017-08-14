@@ -3,9 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { AngularFireAuth } from 'angularfire2/auth';
-// import { AngularFireOfflineModule } from 'angularfire2-offline';
 import { AfoListObservable,  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
-//import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 
 @Injectable()
@@ -19,7 +17,8 @@ export class LoginService {
   private afAuth;
   private afDB;
   public _runs:  AfoListObservable<any[]>;
-  public _items: AfoListObservable<any[]>;
+  public _selected_run:  AfoListObservable<any[]>;
+  // public _items: AfoListObservable<any[]>;
   private _uid: String;
   public selected_run_id: Number = 0;
 
@@ -30,11 +29,11 @@ export class LoginService {
        }
 
   constructor( public http: Http, afAuth: AngularFireAuth,  afDB: AngularFireOfflineDatabase ) {
-            this.user = afAuth.authState; // this is v4 version shorter than below as per https://github.com/angular/angularfire2/blob/master/docs/version-4-upgrade.md
+            this.user   = afAuth.authState; // this is v4 version shorter than below as per https://github.com/angular/angularfire2/blob/master/docs/version-4-upgrade.md
             this.afAuth = afAuth;
-            this.afDB = afDB;
-            this._items = afDB.list('/cuisines');
-        
+            this.afDB   = afDB;
+            //this._items = afDB.list('/cuisines');
+            this._selected_run = null;
         
         afAuth.authState.subscribe((user: firebase.User) => {
           if (!user) {
@@ -44,9 +43,9 @@ export class LoginService {
             this.authorized = true;
             this.displayName = user.displayName;  
             //this.email = user.email;
-            console.log('firebase user credentials ok');
-            console.log(user);
-            console.log(this.items[0]);
+            //console.log('firebase user credentials ok');
+            //console.log(user);
+            //console.log(this.items[0]);
             //afDB.set
             //alert(user.uid);    
           }
@@ -58,13 +57,15 @@ export class LoginService {
   select_run( run_id: Number )
   {
     this.selected_run_id = run_id;
-    alert('run_id selected ' + run_id );
+    console.log('login.serve run_id selected ' + run_id + ' with uid = ' + this._uid );
+    this._selected_run = this.afDB.list('/user_runs/' + this._uid + '/' + run_id + '/drops' );
+    // TODO this.navCtrl.setRoot(HomePage);
   }
 
-  //.child(success.uid).AfoListObservable;
-  get_runs():AfoListObservable<any[]>  {
-    this._runs = this.afDB.list('/available_runs/wt2lv9t2SAOFnSV1lch1GrWnds02');
-    console.log( this._runs );
+
+  get_runs():AfoListObservable<any[]>  { // expose a list of available runs
+    this._runs = this.afDB.list('/available_runs/' + this._uid);
+    //console.log( this._runs );
     /*
     .then(
       {
@@ -77,18 +78,19 @@ export class LoginService {
   }
 
 
-  loginSuccess( token )
+  loginSuccess( token ) // not used
   {
     alert('success');
   }
 
-  loginError() {
+  loginError() { // not used
     alert('error)');
   }
 
   logout() {
     this._username = '';
     //this.afAuth.auth.signOut();
+    this.afDB.reset(); // flushes local storage .. consider add warning first
     this.authorized = false;
   }
 
@@ -102,8 +104,8 @@ export class LoginService {
 
 
   //items(): FirebaseListObservable<any[]> {
-    items(): AfoListObservable<any[]> {
-    return this._items;
+    run_items(): AfoListObservable<any[]> {
+    return this._selected_run;
   }
     // Login on Firebase given the email and password.
     
@@ -115,7 +117,7 @@ export class LoginService {
        // this.loadingProvider.hide();
        //alert('good');
        this.authorized = true;
-       console.log(success.toJSON);
+       //console.log(success.toJSON);
        this._uid = success.uid;
        console.log("Successful login from email with uid = " + success.uid );
        // !PS     this._runs = this.afDB.list('available_runs').child(success.uid);
