@@ -11,6 +11,7 @@ import {
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
+//import { Geolocation } from '@ionic-native/geolocation';
 
 /**
  * Generated class for the MapPage page.
@@ -27,8 +28,12 @@ import { Platform } from 'ionic-angular';
 export class MapPage {
   map: GoogleMap;
   mapElement: HTMLElement;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, private googleMaps: GoogleMaps, public platform: Platform) {
+  mArray: Array<Marker>;
+  //declare var plugin: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              private googleMaps: GoogleMaps, public platform: Platform,
+  //             public geolocation: Geolocation
+              ) {
     platform.ready().then(() => {
       //
     });
@@ -60,6 +65,8 @@ export class MapPage {
 
       });
   }
+
+
  ionViewWillEnter() {
   
  }

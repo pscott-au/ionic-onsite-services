@@ -15,7 +15,8 @@ import { MenuComponent } from "./menu.component";
 
 import { HttpModule } from '@angular/http';
 import { GoogleMaps } from '@ionic-native/google-maps'
-
+import {DropDetailPage} from '../pages/drop-detail/drop-detail';
+import {RunSelectorComponent} from '../components/run-selector/run-selector';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,9 @@ import { GoogleMaps } from '@ionic-native/google-maps'
     ListPage,
     MenuComponent,
     RunsPage,
-    MapPage
+    MapPage,
+    DropDetailPage,
+    RunSelectorComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import { GoogleMaps } from '@ionic-native/google-maps'
     ListPage,
     MenuComponent,
     RunsPage,
-    MapPage
+    MapPage,
+    DropDetailPage
   ],
   providers: [
     StatusBar,

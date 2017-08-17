@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {LoginService} from "../../app/login/login.service";
 import {  AfoListObservable } from 'angularfire2-offline/database'; // , AngularFireOfflineDatabase
-
+import {DropDetailPage} from '../drop-detail/drop-detail';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -16,6 +16,19 @@ export class HomePage {
    }
 
 
+
+   /***** USER PER DROP ACTIONS  **/
+
+   handle_new_run_selected( event ) {
+     console.log('Page handling change to run ');
+     this.items = this.loginService.selected_run();
+   }
+
+   edit_drop_detail(i) {
+    this.navCtrl.push(DropDetailPage, {
+      item: i
+    });
+   }
 
    cancel_drop(i) {
     console.log('cancel drop'+ i);
@@ -35,7 +48,7 @@ export class HomePage {
       {
         this.username= this.loginService.username;
       }
-       this.items = this.loginService.run_items();
+       this.items = this.loginService.selected_run();
       // console.log('Item count = ' + this.items.count() );
 
       /** DEBUG CODE - LOG EACH ITEM  */

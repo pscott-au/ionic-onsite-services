@@ -62,7 +62,7 @@ export class LoginService {
     // TODO this.navCtrl.setRoot(HomePage);
   }
  
-  run_items(): AfoListObservable<any[]> {
+  selected_run(): AfoListObservable<any[]> {
     return this._selected_run;
   }
 
@@ -87,6 +87,8 @@ export class LoginService {
   }
 
 
+
+  /**
   loginSuccess( token ) // not used
   {
     alert('success');
@@ -95,7 +97,7 @@ export class LoginService {
   loginError() { // not used
     alert('error)');
   }
-
+  **/
 
   //items(): FirebaseListObservable<any[]> {
 

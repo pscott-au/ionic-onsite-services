@@ -11,9 +11,10 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-list>
+  <run-selector (runUpdated)="handle_new_run_selected($event)"></run-selector>
+  <ion-list>
       <ion-list-header style="font-weight:bold; font-size:120%;">
-      Locations List
+      <!--Drops-->
     </ion-list-header>
 
       <ion-item-sliding *ngFor="let item of items | async; let i = index; ">
@@ -33,8 +34,16 @@
               <button ion-button (click)="cancel_drop(i)" [hidden]="item.status==0">
                 <ion-icon name="close-circle"></ion-icon>
                 Mark Incomplete
-              </button>
+              </button>              
             </ion-item-options>
+
+            <ion-item-options side="left"  >
+            <button ion-button (click)="edit_drop_detail(item)">
+              <ion-icon name="close-circle"></ion-icon>
+              Edit
+            </button>
+          </ion-item-options>
+          
 
           </ion-item-sliding>
 
