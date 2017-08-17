@@ -4,8 +4,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-//import { ListPage } from '../pages/list/list';
-import { RunsPage } from '../pages/runs/runs';
 import { MapPage } from '../pages/map/map';
 
 @Component({
@@ -23,8 +21,6 @@ export class MenuComponent {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      //{ title: 'List', component: ListPage },
-      { title: 'Runs', component: RunsPage },
       { title: 'Map', component: MapPage }
     ];
 

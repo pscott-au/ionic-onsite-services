@@ -4,8 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-import { RunsPage } from '../pages/runs/runs';
 import { MapPage } from '../pages/map/map';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -22,9 +20,7 @@ import {RunSelectorComponent} from '../components/run-selector/run-selector';
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     MenuComponent,
-    RunsPage,
     MapPage,
     DropDetailPage,
     RunSelectorComponent
@@ -39,9 +35,7 @@ import {RunSelectorComponent} from '../components/run-selector/run-selector';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     MenuComponent,
-    RunsPage,
     MapPage,
     DropDetailPage
   ],
