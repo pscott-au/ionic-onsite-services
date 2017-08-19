@@ -8,6 +8,8 @@ import {DropDetailPage} from '../drop-detail/drop-detail';
   templateUrl: 'home.html'
 })
 
+
+
 export class HomePage {
    public items: AfoListObservable<any[]>;
    username: string;
@@ -16,17 +18,20 @@ export class HomePage {
    }
 
 
+   handle_new_run_selected( event ) {
+    console.log('Page handling change to run ');
+    this.items = this.loginService.selected_run();
+  }
+
+
 
    /***** USER PER DROP ACTIONS  **/
 
-   handle_new_run_selected( event ) {
-     console.log('Page handling change to run ');
-     this.items = this.loginService.selected_run();
-   }
 
-   edit_drop_detail(i) {
+   edit_drop_detail(item,i) {
+    this.loginService.select_drop(i);
     this.navCtrl.push(DropDetailPage, {
-      item: i
+      item: item,
     });
    }
 

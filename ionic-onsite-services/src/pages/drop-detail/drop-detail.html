@@ -9,6 +9,18 @@
 
 
 <ion-content padding>
-  <p>{{item.fin_time}}</p>
-  
+    <div ion-fixed>
+        <p>{{item.fin_time}}</p>
+        <button ion-button full (click)="openSignatureModel()">
+          <ion-icon name="create"></ion-icon>&nbsp;Capture Signature
+          </button>
+          <div><img style="width: 25%;" [src]="signatureImage" *ngIf="signatureImage" /></div>
+      
+    </div>
+
+    <!--
+    <button ion-button full (click)="debug_sig()">
+      DEBUG SIG
+      </button>
+    -->
 </ion-content>

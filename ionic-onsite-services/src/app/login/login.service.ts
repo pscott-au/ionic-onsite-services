@@ -20,6 +20,8 @@ export class LoginService {
   public _selected_run:  AfoListObservable<any[]>;
   // public _items: AfoListObservable<any[]>;
   private _uid: String;
+  private _selected_drop_index: Number;
+  private _sig: String;
   public selected_run_id: Number = 0;
 
   public configObservable = new Subject<number>();
@@ -86,8 +88,22 @@ export class LoginService {
     return this._username;
   }
 
+  set_signature( sig: String )
+  {
+    this._sig = sig;
+    this._selected_run.update(  this._selected_drop_index.toString(), {"sig": sig} );
+    //this._selected_run.drops
+  }
+
+  get signature(): String {
+    return this._sig;
+    
+  }
 
 
+  select_drop(i) {
+    this._selected_drop_index = i;
+  }
   /**
   loginSuccess( token ) // not used
   {
