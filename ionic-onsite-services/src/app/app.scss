@@ -17,3 +17,14 @@
 ion-nav.has-views {
   background-color: transparent !important;
 }
+
+.top {
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 80vw;
+  }
+}

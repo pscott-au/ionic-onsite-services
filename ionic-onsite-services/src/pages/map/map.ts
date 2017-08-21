@@ -11,6 +11,8 @@ import {
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
+import {LoginService} from "../../app/login/login.service";
+import {  AfoListObservable } from 'angularfire2-offline/database'; // , AngularFireOfflineDatabase
 //import { Geolocation } from '@ionic-native/geolocation';
 
 /**
@@ -27,13 +29,23 @@ import { Platform } from 'ionic-angular';
 })
 export class MapPage {
   map: GoogleMap;
+  public items: AfoListObservable<any[]>;
+
   mapElement: HTMLElement;
-  mArray: Array<Marker>;
+  markers: Array<Marker>;
   //declare var plugin: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
               private googleMaps: GoogleMaps, public platform: Platform,
+              private loginService: LoginService
   //             public geolocation: Geolocation
               ) {
+                
+                this.items = this.loginService.selected_run();
+
+                  //console.log(x[0].drop_details.lat); 
+
+                //
+                //console.log(this.items);
     platform.ready().then(() => {
       //
     });
@@ -68,29 +80,70 @@ export class MapPage {
 
 
  ionViewWillEnter() {
-  
+  this.items = this.loginService.selected_run();
+  this.markers = [];
+  this.loadMap();
+
+  this.map.clear();
+  //this.map.off();
+
+  this.items.forEach( x=> { 
+   for( var drop in x) {
+     console.log('create marker at ' +  x[drop].drop_details.lat + ',' + x[drop].drop_details.lng );
+     console.log('status  = ' + x[drop].status );
+     let m_Color = 'red';
+     if ( x[drop].status ==1 )
+       {
+         m_Color = 'green';
+       }
+     //this.markers.push(
+       this.map.addMarker({
+       title: x[drop].info,
+       icon: m_Color,
+       animation: 'DROP',
+       position: {
+         lat: x[drop].drop_details.lat,
+         lng: x[drop].drop_details.lng
+       }
+     }).then(marker => {
+       marker.on(GoogleMapsEvent.MARKER_CLICK)
+         .subscribe(() => {
+           alert('clicked');
+         });
+     });
+
+     //this.markers.push(marker) ;
+
+   };
+   }  ); 
+
+   /*
+  // Now you can use all methods safely.
+     this.map.addMarker({
+         title: 'Ionic',
+         icon: 'blue',
+         animation: 'DROP',
+         position: {
+           lat: -27.9110622,
+           lng: 153.3877903
+         }
+       })
+       .then(marker => {
+         marker.on(GoogleMapsEvent.MARKER_CLICK)
+           .subscribe(() => {
+             alert('clicked');
+           });
+       });
+*/  
  }
  
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapPage');
-     this.loadMap();
-     // Now you can use all methods safely.
-        this.map.addMarker({
-            title: 'Ionic',
-            icon: 'blue',
-            animation: 'DROP',
-            position: {
-              lat: -27.9110622,
-              lng: 153.3877903
-            }
-          })
-          .then(marker => {
-            marker.on(GoogleMapsEvent.MARKER_CLICK)
-              .subscribe(() => {
-                alert('clicked');
-              });
-          });
-    
+
+          
+
   }
+
+
 
 }

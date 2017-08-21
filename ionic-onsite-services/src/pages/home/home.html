@@ -23,7 +23,8 @@
           <!-- ----------------------------------- -->
           <!-- ion-card code here is lifted straight from the ionic website docs -->
               <h2><!-- {{item.$value}} {{item.$key }} --> {{item.info}}</h2>
-              <p>{{item.fin_time}}</p>
+              <!--<p>{{item.fin_time}}</p>-->
+              <p>{{item.customer_details.fname}} - {{item.customer_details.address}}</p>
         </ion-item>
 
             <ion-item-options side="right"  >

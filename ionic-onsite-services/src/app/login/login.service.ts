@@ -75,8 +75,14 @@ export class LoginService {
 
   logout() {
     this._username = '';
+    this.selected_run_id = 0;
     //this.afAuth.auth.signOut();
+    //this.select_run(0);
     this.afDB.reset(); // flushes local storage .. consider add warning first
+    this._runs = null;
+    //this._selected_run = null;
+    //this.afDB = null;
+    
     this.authorized = false;
   }
 
@@ -92,6 +98,7 @@ export class LoginService {
   {
     this._sig = sig;
     this._selected_run.update(  this._selected_drop_index.toString(), {"sig": sig} );
+    this._selected_run.update(  this._selected_drop_index.toString(), {"status": 1} );
     //this._selected_run.drops
   }
 
@@ -104,6 +111,44 @@ export class LoginService {
   select_drop(i) {
     this._selected_drop_index = i;
   }
+
+  get_selected_drop_index() {
+    return this._selected_drop_index;
+  }
+
+
+  set_run_order_item( run_order_item_index, is_complete, qty_ordered, qty_delivered ) {
+    //console.log('run_order_item_index = ' + run_order_item_index);
+    //console.log('is_complete = ' + is_complete );
+    let fb_path = this._selected_drop_index.toString() + '/run_order_items/' +  run_order_item_index;
+    this._selected_run.update(  fb_path , {"delivered": is_complete} );
+    
+    /* if qty delivered is less than qty_ordered then update qty_delivered to = qty_ordered */
+    if ( (qty_delivered < qty_ordered) && (is_complete==true)  )
+      {
+        console.log( 'qty_delivered < qty_ordered) && is_complete so setting qty_delivered to qty_ordered' );
+        this._selected_run.update(  fb_path , {"qty_delivered": qty_ordered} );
+      }
+      else {
+        console.log( 'ordered = ' + qty_ordered + '   delivered = ' + qty_delivered);
+      }
+
+    /**
+    //this.afDB.list('/user_runs/' + this._uid + '/' + run_id + '/drops' )
+    let tmp = this.afDB.object('/user_runs/' + this._uid + '/' + this.selected_run_id + '/drops/' + fb_path );
+    //tmp.set( 
+      
+    console.log(tmp);
+    console.log(tmp.toJSON);
+    console.log(tmp.qty_ordered);
+    console.log(tmp.qty_delivered);
+    //let tmp = this._selected_run[get()
+    //console.log('ordered = ' + this._selected_run.list( fb_path + '/qty_ordered') );
+    //console.log('delivered = ' + this._selected_run.list( fb_path + '/qty_delivered') );
+    **/
+
+  }
+
   /**
   loginSuccess( token ) // not used
   {
@@ -138,6 +183,8 @@ export class LoginService {
        //firebase.database().ref('/userProfile').child(success.uid).set( { ts: 'time' , email: success.email } );
        //.set({ email: success.email });
        //this.displayName = this.afAuth.user.email;
+       this.afDB.reset();
+       this.select_run(0);
        observer.next();       
       })
        .catch((error) => {

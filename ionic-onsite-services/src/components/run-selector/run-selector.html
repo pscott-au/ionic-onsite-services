@@ -1,11 +1,18 @@
 <!-- Generated template for the RunSelectorComponent component -->
-<div>
-  
+<ion-grid>
+<!--
+  <ion-row>
+      <ion-col>
       <ion-label>Run</ion-label>
+      </ion-col>
+    </ion-row>
+  -->    
+    <ion-row>
+      <ion-col>
       <!-- [compareWith]="compareFn"  (ionSelect)="select_run2()" (change)="select_run2()" -->
-      <ion-select [(ngModel)]="selected_run"  (ionChange)="select_run()"  multiple="false" > <!-- cancelText="Nah" okText="Okay!" -->
+      <ion-select [(ngModel)]="selected_run"  (ionChange)="select_run()"  multiple="false" style="width: 100%;max-width: 100%;"> <!-- cancelText="Nah" okText="Okay!" -->
         <ion-option *ngFor="let run of runs | async" [value]="run.run_id" >{{ run.desc }}</ion-option>
-        
-      </ion-select>
-  
-</div>
+      </ion-select>  
+    </ion-col>
+  </ion-row>
+</ion-grid>
