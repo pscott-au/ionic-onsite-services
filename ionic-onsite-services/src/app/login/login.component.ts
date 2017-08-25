@@ -20,17 +20,15 @@ export class LoginComponent {
 
   login_firebase_email(username, password) {
     this.loginService.emailLoginFirebase(username,password).subscribe(res => {
-   console.log('success');
-   this.nav.pop();
- }, error => {
-   console.log('error');
- });
-    
+      this.nav.pop();
+     }, error => {
+      console.log('error');
+    });
   }
 
   login(username, password) {
     this.loginService.login(username,password).subscribe(res => {
-   console.log('success');
+   //console.log('success');
    if (this.loginService.isLoggedIn )
     {
       this.nav.pop();

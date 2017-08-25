@@ -16,7 +16,7 @@ export class DropDetailPage {
   private item_id;
   private tab  :String;
   private notes: String;
-  
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private loginService: LoginService,
     public modalController:ModalController) {
       this.tab ='tasks';
@@ -27,6 +27,11 @@ export class DropDetailPage {
     //this.item.fin_time = '2018-10-10 00:00:00';
     //this.item.update( i.toString(), {"status": 0} );
     this.signatureImage = this.item.sig;
+    if ( this.item.notes ) 
+      {
+        this.notes = this.item.notes;
+      }
+    
    // this.item.update( 'status', 1 );
     //console.log(this.item);
     //set_signature
@@ -41,28 +46,25 @@ export class DropDetailPage {
       this.loginService.set_signature(data);
     });
     chooseModal.present();
-    /*
-    setTimeout(() => {
-       let modal = this.modalController.create(SignaturePage );
-    modal.present();
-    }, 300);
-    */
-
-    //console.log(this.modalController.sig);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DropDetailPage');
+    //console.log('ionViewDidLoad DropDetailPage');
   }
 
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter');
+    //console.log('ionViewDidEnter');
     if ( this.loginService.username )
       {
         this.username= this.loginService.username;
       }
-       //this.items = this.loginService.run_items();
+  }
+
+  ionViewWillLeave() {
+    //console.log('leaving so need to update - but causes errors ' + this.notes);
+    //this.loginService.set_run_order_note(this.notes);
+    // NB this causes undefined object errors on return to homepage???
   }
 
   debug_sig() {
@@ -71,8 +73,10 @@ export class DropDetailPage {
 
 
   update_notes() {
-    console.log( this.notes );
+    //console.log( this.notes );
+    this.loginService.set_run_order_note(this.notes);
   }
+
 
   updateItemQtyDelivered(i) {
     // NB need to pass through the qtys so that we update the qty_delivered to qty_ordered when checked and qty_deilvered < qty_ordered
@@ -89,6 +93,8 @@ export class DropDetailPage {
       }
       */
   }
+
+
 
 
 }

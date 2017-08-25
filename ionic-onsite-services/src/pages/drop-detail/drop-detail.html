@@ -27,7 +27,8 @@
             <ion-card-content>
           <p>{{item.customer_details.fname}} {{item.customer_details.sname}}</p>
           <p>{{item.customer_details.street_address}}<br/>
-            {{item.customer_details.suburb}} {{item.customer_details.postcode}}
+            {{item.customer_details.suburb}} {{item.customer_details.postcode}}<br/>
+            <a ion-button href="tel:{{item.customer_details.mobile}}" > {{item.customer_details.mobile}} </a>
           </p>
             </ion-card-content>
 
@@ -56,7 +57,7 @@
         <ion-row>
             <ion-item>
                 <ion-label>Notes</ion-label> <!-- (ionChange) - (ionInput)='update_notes()' -->
-                <ion-input type="text" (ionFocus)='update_notes()'   [(ngModel)]="notes" name="title"></ion-input>
+                <ion-input type="text"  (ionChange)='update_notes()'  [(ngModel)]="notes" name="title"></ion-input> <!-- update always performed when leaving this screen -->
               </ion-item>    
         </ion-row>
     <!--

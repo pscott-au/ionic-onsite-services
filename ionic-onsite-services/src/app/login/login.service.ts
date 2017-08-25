@@ -8,6 +8,10 @@ import * as firebase from 'firebase/app';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from 'ionic-angular';
 
+/*
+  25/8/17 - refactoring to include a static internal data structure for the selected run drops
+*/
+
 @Injectable()
 export class LoginService {
   private _username: string;
@@ -18,14 +22,18 @@ export class LoginService {
   public displayName: string;
   private afAuth;
   private afDB;
-  public _runs:  AfoListObservable<any[]>;
+  public _runs:          AfoListObservable<any[]>;
   public _selected_run:  AfoListObservable<any[]>;
+
+
   // public _items: AfoListObservable<any[]>;
   private _uid: String;
   private _selected_drop_index: Number;
   private _selected_drop: AfoListObservable<any[]>;
   private _sig: String;
   private selected_run_id: Number = 0;
+  private _drops_data: Array<any>; 
+
 
   public lat: Number;
   public lng: Number;
@@ -35,13 +43,15 @@ export class LoginService {
          emitConfig(val) {
            console.log('login service set to' + val );
          this.configObservable.next(val);
-       }
+       } // is this used
 
-  constructor( public http: Http, afAuth: AngularFireAuth,  afDB: AngularFireOfflineDatabase, public geolocation: Geolocation,public platform: Platform ) {
+  constructor( public http: Http, afAuth: AngularFireAuth,  afDB: AngularFireOfflineDatabase, 
+               public geolocation: Geolocation,public platform: Platform ) {
             this.user   = afAuth.authState; // this is v4 version shorter than below as per https://github.com/angular/angularfire2/blob/master/docs/version-4-upgrade.md
             this.afAuth = afAuth;
             this.afDB   = afDB;
             //this._items = afDB.list('/cuisines');
+
             this._selected_run = null;
             this._platform = platform;
             if (platform.is('cordova')) {
@@ -56,6 +66,7 @@ export class LoginService {
         afAuth.authState.subscribe((user: firebase.User) => {
           if (!user) {
             this.displayName = 'not logged in';
+            this.authorized = false;
             return;
           } else {
             this.authorized = true;
@@ -78,25 +89,23 @@ export class LoginService {
     console.log('login.serve run_id selected ' + run_id + ' with uid = ' + this._uid );
     this._selected_run = this.afDB.list('/user_runs/' + this._uid + '/' + run_id + '/drops' );
 
-
-    this._selected_run.subscribe( x=> {
+    
+    this._selected_run.subscribe( drops=> {
       let count = 0;
       let count_green = 0;
-      x.forEach( drop => { 
+      this._drops_data = [];
+      drops.forEach( drop => { 
         count++;
-        if ( drop.status == 1 ) { count_green++; }
+        this._drops_data.push( {
+          'info': drop.info,
+          'status': drop.status,
+          'drop_details': drop.drop_details,
+          'customer_details': drop.customer_details,
+          'run_order_items': drop.run_order_items
+        } );
       } ) ;
-      console.log('Count = ' + count) ;
-      console.log('Count Grenn = ' + count_green) ;
-      for( var drop in x) {
-/*
-        let m_Color = 'red';
-        if ( x[drop].status ==1 )
-          {
-            m_Color = 'green';
-          }
-*/
-      };
+      console.log( this._drops_data );
+
      }  ); // END subscribe to changes in run drops 
     // --------------------------------------------------------------------------------------
   }
@@ -112,6 +121,10 @@ export class LoginService {
   get_runs():AfoListObservable<any[]>  { // expose a list of available runs
     this._runs = this.afDB.list('/available_runs/' + this._uid);
     return this._runs;   
+  }
+
+  get_drop_data() {
+    return this._drops_data;
   }
 
   logout() {
@@ -168,6 +181,11 @@ export class LoginService {
     return this._selected_drop;
   }
 
+
+  set_run_order_note( t: String )
+  {
+     this._selected_run.update(  this._selected_drop_index.toString(),  {"notes": t } );
+  }
 
   set_run_order_item( run_order_item_index, is_complete, qty_ordered, qty_delivered ) {
     //console.log('run_order_item_index = ' + run_order_item_index);

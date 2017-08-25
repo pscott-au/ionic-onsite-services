@@ -19,7 +19,7 @@ export class HomePage {
 
 
    handle_new_run_selected( event ) {
-    console.log('Page handling change to run ');
+    // console.log('Page handling change to run ');
     this.items = this.loginService.selected_run();
   }
 
@@ -49,27 +49,13 @@ export class HomePage {
    }
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter');
+    //console.log('ionViewDidEnter');
     if ( this.loginService.username )
       {
         this.username= this.loginService.username;
       }
       //this.items = this.loginService.selected_run();
-      // console.log('Item count = ' + this.items.count() );
-
-      /** DEBUG CODE - LOG EACH ITEM  */
-      /*
-       this.items.subscribe(items => {
-          // items is an array
-          items.forEach(item => {
-              console.log('Item:', item);
-          });
-      });
-        */
-
-
-
-       //this.items.push('Greek' );
+       //console.log('entered home page ' );
   }
 
   ionViewWillEnter() {
