@@ -1,16 +1,19 @@
 <ion-content padding style="text-align: center">
-  <h3>Login</h3>
   <div class="top">
     <img src="assets/images/sgd_logo_1024x1024_transp.png" />
   </div>
-  <p>Enter email and password below</p>
 
+  <ion-card style="background: #CACACA;">
+    <ion-card-content>
+        <h2 style="color: white;">Enter email and password below</h2>
   <div><input type="text" #username value='peter@pscott.com.au' /></div>
   <div><input type="text" #password value='password' /></div>
-
+  <button ion-button secondary (click)="login_firebase_email(username.value, password.value)">Login</button>  
+</ion-card-content>
+  </ion-card>
   <!-- <button ion-button secondary (click)="login(username.value, password.value)">Login to prod server</button> -->
 
-  <button ion-button secondary (click)="login_firebase_email(username.value, password.value)">Login To On Site</button>
+  
 
 
 </ion-content>

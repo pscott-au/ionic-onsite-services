@@ -5,6 +5,8 @@ import 'rxjs/add/operator/map';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AfoListObservable,  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 import * as firebase from 'firebase/app';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Platform } from 'ionic-angular';
 
 @Injectable()
 export class LoginService {
@@ -21,8 +23,13 @@ export class LoginService {
   // public _items: AfoListObservable<any[]>;
   private _uid: String;
   private _selected_drop_index: Number;
+  private _selected_drop: AfoListObservable<any[]>;
   private _sig: String;
-  public selected_run_id: Number = 0;
+  private selected_run_id: Number = 0;
+
+  public lat: Number;
+  public lng: Number;
+  private _platform: Platform;
 
   public configObservable = new Subject<number>();
          emitConfig(val) {
@@ -30,13 +37,22 @@ export class LoginService {
          this.configObservable.next(val);
        }
 
-  constructor( public http: Http, afAuth: AngularFireAuth,  afDB: AngularFireOfflineDatabase ) {
+  constructor( public http: Http, afAuth: AngularFireAuth,  afDB: AngularFireOfflineDatabase, public geolocation: Geolocation,public platform: Platform ) {
             this.user   = afAuth.authState; // this is v4 version shorter than below as per https://github.com/angular/angularfire2/blob/master/docs/version-4-upgrade.md
             this.afAuth = afAuth;
             this.afDB   = afDB;
             //this._items = afDB.list('/cuisines');
             this._selected_run = null;
-        
+            this._platform = platform;
+            if (platform.is('cordova')) {
+              this.geolocation.getCurrentPosition().then((position) => {
+                this.lat = position.coords.latitude;
+                this.lng = position.coords.longitude;
+                console.log(this.lat + ',' + this.lng );
+                console.log( new Date().toISOString() );
+              });
+            }
+
         afAuth.authState.subscribe((user: firebase.User) => {
           if (!user) {
             this.displayName = 'not logged in';
@@ -61,11 +77,36 @@ export class LoginService {
     this.selected_run_id = run_id;
     console.log('login.serve run_id selected ' + run_id + ' with uid = ' + this._uid );
     this._selected_run = this.afDB.list('/user_runs/' + this._uid + '/' + run_id + '/drops' );
-    // TODO this.navCtrl.setRoot(HomePage);
+
+
+    this._selected_run.subscribe( x=> {
+      let count = 0;
+      let count_green = 0;
+      x.forEach( drop => { 
+        count++;
+        if ( drop.status == 1 ) { count_green++; }
+      } ) ;
+      console.log('Count = ' + count) ;
+      console.log('Count Grenn = ' + count_green) ;
+      for( var drop in x) {
+/*
+        let m_Color = 'red';
+        if ( x[drop].status ==1 )
+          {
+            m_Color = 'green';
+          }
+*/
+      };
+     }  ); // END subscribe to changes in run drops 
+    // --------------------------------------------------------------------------------------
   }
  
   selected_run(): AfoListObservable<any[]> {
     return this._selected_run;
+  }
+
+  get_selected_run_id() {
+    return this.selected_run_id;
   }
 
   get_runs():AfoListObservable<any[]>  { // expose a list of available runs
@@ -99,6 +140,9 @@ export class LoginService {
     this._sig = sig;
     this._selected_run.update(  this._selected_drop_index.toString(), {"sig": sig} );
     this._selected_run.update(  this._selected_drop_index.toString(), {"status": 1} );
+    if (this._platform.is('cordova')) {
+      this._selected_run.update(  this._selected_drop_index.toString(), {"sig_lat": this.lat, "sig_lng": this.lng, ts: new Date().toISOString() } );
+    }
     //this._selected_run.drops
   }
 
@@ -110,10 +154,18 @@ export class LoginService {
 
   select_drop(i) {
     this._selected_drop_index = i;
+    this._selected_drop = this.afDB.list('/user_runs/' + this._uid + '/' + this.selected_run_id + '/drops/' + i );
+
+    // TODO this.navCtrl.setRoot(HomePage);
   }
 
   get_selected_drop_index() {
     return this._selected_drop_index;
+  }
+
+  get_selected_drop() {
+    //return this._selected_run[ this._selected_drop_index.valueOf ];
+    return this._selected_drop;
   }
 
 
@@ -183,6 +235,8 @@ export class LoginService {
        //firebase.database().ref('/userProfile').child(success.uid).set( { ts: 'time' , email: success.email } );
        //.set({ email: success.email });
        //this.displayName = this.afAuth.user.email;
+
+
        this.afDB.reset();
        this.select_run(0);
        observer.next();       

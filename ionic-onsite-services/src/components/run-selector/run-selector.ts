@@ -24,7 +24,7 @@ export class RunSelectorComponent {
   constructor( private loginService: LoginService ) {
     console.log('Hello RunSelectorComponent Component');
     this.loginService.configObservable.subscribe( value => {this.selected_run = value; } );
-    this.selected_run = this.loginService.selected_run_id;
+    this.selected_run = this.loginService.get_selected_run_id();
        this.runs      = this.loginService.get_runs();
        console.log('ionViewWillEnter  ' +  this.selected_run );
   }

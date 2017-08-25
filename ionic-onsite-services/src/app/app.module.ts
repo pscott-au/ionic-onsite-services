@@ -13,10 +13,13 @@ import { MenuComponent } from "./menu.component";
 
 import { HttpModule } from '@angular/http';
 import { GoogleMaps } from '@ionic-native/google-maps'
-import {DropDetailPage} from '../pages/drop-detail/drop-detail';
-import {RunSelectorComponent} from '../components/run-selector/run-selector';
+import { DropDetailPage} from '../pages/drop-detail/drop-detail';
+import { RunSelectorComponent} from '../components/run-selector/run-selector';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SignaturePage } from '../pages/signature/signature';
+
+import { Geolocation } from '@ionic-native/geolocation';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -48,7 +51,8 @@ import { SignaturePage } from '../pages/signature/signature';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    GoogleMaps
+    GoogleMaps,
+    Geolocation
   ]
 })
 export class AppModule {}

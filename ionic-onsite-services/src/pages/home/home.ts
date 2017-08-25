@@ -12,8 +12,8 @@ import {DropDetailPage} from '../drop-detail/drop-detail';
 
 export class HomePage {
    public items: AfoListObservable<any[]>;
-   username: string;
-
+   username: String;
+   tab: String = 'drops';
    constructor(public navCtrl: NavController, private loginService: LoginService) {
    }
 
@@ -31,7 +31,8 @@ export class HomePage {
    edit_drop_detail(item,i) {
     this.loginService.select_drop(i);
     this.navCtrl.push(DropDetailPage, {
-      item: item,
+      item_id: i,
+      item: item
     });
    }
 
@@ -53,7 +54,7 @@ export class HomePage {
       {
         this.username= this.loginService.username;
       }
-       this.items = this.loginService.selected_run();
+      //this.items = this.loginService.selected_run();
       // console.log('Item count = ' + this.items.count() );
 
       /** DEBUG CODE - LOG EACH ITEM  */
@@ -71,6 +72,9 @@ export class HomePage {
        //this.items.push('Greek' );
   }
 
+  ionViewWillEnter() {
+  this.items = this.loginService.selected_run();
+  }
    /*
   ionViewWillEnter() {
     if ( this.loginService.username )

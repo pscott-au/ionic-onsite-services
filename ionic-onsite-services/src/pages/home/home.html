@@ -12,44 +12,45 @@
 
 <ion-content padding>
   <run-selector (runUpdated)="handle_new_run_selected($event)"></run-selector>
-  <ion-list>
-      <ion-list-header style="font-weight:bold; font-size:120%;">
-      <!--Drops-->
-    </ion-list-header>
 
-      <ion-item-sliding *ngFor="let item of items | async; let i = index; ">
-       <!-- <ion-item class="text"  [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" > -->
-          <ion-item class="text"  [ngClass]="(item.status == 1) ? 'green' : 'red'" >
-          <!-- ----------------------------------- -->
-          <!-- ion-card code here is lifted straight from the ionic website docs -->
-              <h2><!-- {{item.$value}} {{item.$key }} --> {{item.info}}</h2>
-              <!--<p>{{item.fin_time}}</p>-->
-              <p>{{item.customer_details.fname}} - {{item.customer_details.address}}</p>
-        </ion-item>
-
-            <ion-item-options side="right"  >
-              <button ion-button (click)="complete_drop(i)" [hidden]="item.status==1">
-                <ion-icon name="checkmark-circle"></ion-icon>
-                Mark Complete
-              </button>
-              <button ion-button (click)="cancel_drop(i)" [hidden]="item.status==0">
+      <ion-list>
+        <ion-list-header style="font-weight:bold; font-size:120%;">
+        <!--Drops-->
+      </ion-list-header>
+  
+        <ion-item-sliding *ngFor="let item of items | async; let i = index; ">
+         <!-- <ion-item class="text"  [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" > -->
+            <ion-item class="text"  [ngClass]="(item.status == 1) ? 'green' : 'red'" >
+            <!-- ----------------------------------- -->
+            <!-- ion-card code here is lifted straight from the ionic website docs -->
+                <h2><!-- {{item.$value}} {{item.$key }} --> {{item.info}}</h2>
+                <!--<p>{{item.fin_time}}</p>-->
+                <p>{{item.customer_details.fname}} - {{item.customer_details.address}}</p>
+          </ion-item>
+  
+              <ion-item-options side="right"  >
+                <button ion-button (click)="complete_drop(i)" [hidden]="item.status==1">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                  Mark Complete
+                </button>
+                <button ion-button (click)="cancel_drop(i)" [hidden]="item.status==0">
+                  <ion-icon name="close-circle"></ion-icon>
+                  Mark Incomplete
+                </button>              
+              </ion-item-options>
+  
+              <ion-item-options side="left"  >
+              <button ion-button (click)="edit_drop_detail(item,i)">
                 <ion-icon name="close-circle"></ion-icon>
-                Mark Incomplete
-              </button>              
+                Edit
+              </button>
             </ion-item-options>
+            
+  
+            </ion-item-sliding>
+      </ion-list>
+          <!-- ----------------------------------- -->          
 
-            <ion-item-options side="left"  >
-            <button ion-button (click)="edit_drop_detail(item,i)">
-              <ion-icon name="close-circle"></ion-icon>
-              Edit
-            </button>
-          </ion-item-options>
-          
 
-          </ion-item-sliding>
-
-        <!-- ----------------------------------- -->          
-
-    </ion-list>
   <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
 </ion-content>
