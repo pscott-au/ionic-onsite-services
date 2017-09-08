@@ -12,3 +12,5 @@ It is a work in progress but aims to provide a publicly available reference impl
 9/8/17 - adding schedule of site visits
 14/8/17 - update job status through hompage item-slider
         - add google maps plugin
+          NB https://forum.ionicframework.com/t/google-maps-native-not-working/84678/11?u=localshop
+          

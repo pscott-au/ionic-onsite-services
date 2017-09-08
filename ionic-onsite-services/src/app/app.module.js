@@ -9,7 +9,6 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { RunsPage } from '../pages/runs/runs';
 import { MapPage } from '../pages/map/map';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -19,6 +18,7 @@ import { MenuComponent } from "./menu.component";
 import { HttpModule } from '@angular/http';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import {DropDetailPage} from '../drop-detail/drop-detail';
+
 var AppModule = (function () {
     function AppModule() {
     }
@@ -29,9 +29,7 @@ AppModule = __decorate([
         declarations: [
             MyApp,
             HomePage,
-            ListPage,
             MenuComponent,
-            RunsPage,
             MapPage
         ],
         imports: [
@@ -44,9 +42,7 @@ AppModule = __decorate([
         entryComponents: [
             MyApp,
             HomePage,
-            ListPage,
             MenuComponent,
-            RunsPage,
             MapPage,
             DropDetailPage
         ],

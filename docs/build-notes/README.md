@@ -81,6 +81,14 @@ npm install --save @ionic-native/geolocation
             + @ionic-native/geolocation@4.1.0
 
 
+### Google Maps
+
+https://forum.ionicframework.com/t/google-maps-native-not-working/84678/11?u=localshop
+  - note the css stuff in app.scss and map.scss
+
+ionic cordova plugin add cordova-plugin-googlemaps  --variable API_KEY_FOR_IOS="kkkk"
+npm install ionic-native --save
+
 
 
 ## On Site Data Capture

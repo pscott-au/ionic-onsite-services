@@ -1,3 +1,9 @@
+/**
+ * Generated class for the MapPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
 import {
  GoogleMaps,
  GoogleMap,
@@ -15,12 +21,7 @@ import {LoginService} from "../../app/login/login.service";
 import {  AfoListObservable } from 'angularfire2-offline/database'; // , AngularFireOfflineDatabase
 //import { Geolocation } from '@ionic-native/geolocation';
 
-/**
- * Generated class for the MapPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+
 
 @IonicPage()
 @Component({
@@ -29,25 +30,27 @@ import {  AfoListObservable } from 'angularfire2-offline/database'; // , Angular
 })
 export class MapPage {
   map: GoogleMap;
-  public items: AfoListObservable<any[]>;
-
+  private items;
+  lat: Number;
+  lng: Number;
   mapElement: HTMLElement;
   markers: Array<Marker>;
   //declare var plugin: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, 
               private googleMaps: GoogleMaps, public platform: Platform,
-              private loginService: LoginService
-  //             public geolocation: Geolocation
+              private loginService: LoginService,
+              // public geolocation: Geolocation
               ) {
-                
-                this.items = this.loginService.selected_run();
-
+                //this.items = this.loginService.selected_run();
+                this.items = [];
+                this.lat = loginService.lat;
+                this.lng = loginService.lng;
                   //console.log(x[0].drop_details.lat); 
-
                 //
                 //console.log(this.items);
     platform.ready().then(() => {
       //
+      console.log('platform ready');
     });
   }
 
@@ -72,38 +75,31 @@ export class MapPage {
     this.map.one(GoogleMapsEvent.MAP_READY)
       .then(() => {
         console.log('Map is ready!');
-
-        
-
       });
   }
 
 
  ionViewWillEnter() {
-  this.items = this.loginService.selected_run();
+  this.items = this.loginService.get_drop_data();
+  let done_count = 0;
   this.markers = [];
   this.loadMap();
-
   this.map.clear();
-  //this.map.off();
-
-  this.items.forEach( x=> { 
-   for( var drop in x) {
-     console.log('create marker at ' +  x[drop].drop_details.lat + ',' + x[drop].drop_details.lng );
-     console.log('status  = ' + x[drop].status );
+  
+  this.items.forEach( drop => { 
      let m_Color = 'red';
-     if ( x[drop].status ==1 )
+     if ( drop.status ==1 )
        {
          m_Color = 'green';
+         done_count++;
        }
-     //this.markers.push(
        this.map.addMarker({
-       title: x[drop].info,
+       title: drop.info,
        icon: m_Color,
        animation: 'DROP',
        position: {
-         lat: x[drop].drop_details.lat,
-         lng: x[drop].drop_details.lng
+         lat: drop.drop_details.lat,
+         lng: drop.drop_details.lng
        }
      }).then(marker => {
        marker.on(GoogleMapsEvent.MARKER_CLICK)
@@ -111,39 +107,17 @@ export class MapPage {
            alert('clicked');
          });
      });
-
-     //this.markers.push(marker) ;
-
-   };
-   }  ); 
-
-   /*
-  // Now you can use all methods safely.
-     this.map.addMarker({
-         title: 'Ionic',
-         icon: 'blue',
-         animation: 'DROP',
-         position: {
-           lat: -27.9110622,
-           lng: 153.3877903
-         }
-       })
-       .then(marker => {
-         marker.on(GoogleMapsEvent.MARKER_CLICK)
-           .subscribe(() => {
-             alert('clicked');
-           });
-       });
-*/  
+   });
+   console.log('done count = ' + done_count);
  }
  
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MapPage');
-
-          
-
+    //console.log('ionViewDidLoad MapPage');   
   }
 
+  ionViewWillLeave() {
+    this.items = [];
+  }
 
 
 }

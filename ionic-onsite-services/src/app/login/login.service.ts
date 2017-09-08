@@ -9,7 +9,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from 'ionic-angular';
 
 /*
-  25/8/17 - refactoring to include a static internal data structure for the selected run drops
+  25/8/17 - refactoring to include a static internal data structure for the selected run drops in property _drops_data
 */
 
 @Injectable()
@@ -196,7 +196,7 @@ export class LoginService {
     /* if qty delivered is less than qty_ordered then update qty_delivered to = qty_ordered */
     if ( (qty_delivered < qty_ordered) && (is_complete==true)  )
       {
-        console.log( 'qty_delivered < qty_ordered) && is_complete so setting qty_delivered to qty_ordered' );
+        //console.log( 'qty_delivered < qty_ordered) && is_complete so setting qty_delivered to qty_ordered' );
         this._selected_run.update(  fb_path , {"qty_delivered": qty_ordered} );
       }
       else {

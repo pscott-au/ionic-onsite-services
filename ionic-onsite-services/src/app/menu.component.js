@@ -15,6 +15,7 @@ import { HomePage } from '../pages/home/home';
 //import { ListPage } from '../pages/list/list';
 import { RunsPage } from '../pages/runs/runs';
 import { MapPage } from '../pages/map/map';
+
 var MenuComponent = (function () {
     function MenuComponent(platform, statusBar, splashScreen) {
         this.platform = platform;
